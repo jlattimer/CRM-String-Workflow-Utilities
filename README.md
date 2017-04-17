@@ -3,6 +3,8 @@ Custom workflow actions that deal with text strings in Dynamics CRM 2011, 2013, 
 
 * Contains
 * Create Empty Spaces
+* Decode Html
+* Encode Html
 * EndsWith
 * Join
 * Length
