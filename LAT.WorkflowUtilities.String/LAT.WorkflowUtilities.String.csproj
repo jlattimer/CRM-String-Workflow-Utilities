@@ -72,6 +72,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contains.cs" />
+    <Compile Include="DecodeHtml.cs" />
+    <Compile Include="EncodeHtml.cs" />
     <Compile Include="EndsWith.cs" />
     <Compile Include="CreateEmptySpaces.cs" />
     <Compile Include="Length.cs" />

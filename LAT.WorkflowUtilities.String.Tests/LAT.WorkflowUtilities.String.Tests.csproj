@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="ContainsTests.cs" />
     <Compile Include="CreateEmptySpacesTests.cs" />
+    <Compile Include="DecodeHtmlTests.cs" />
+    <Compile Include="EncodeHtmlTests.cs" />
     <Compile Include="LengthTests.cs" />
     <Compile Include="PadLeftDynamicTests.cs" />
     <Compile Include="PadRightDynamicTests.cs" />
