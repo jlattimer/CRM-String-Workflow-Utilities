@@ -1,9 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
-using Moq;
-using System;
-using System.Activities;
+﻿using FakeXrmEasy;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
 namespace LAT.WorkflowUtilities.String.Tests
@@ -11,16 +7,6 @@ namespace LAT.WorkflowUtilities.String.Tests
     [TestClass]
     public class ToLowerTests
     {
-        #region Class Constructor
-        private readonly string _namespaceClassAssembly;
-        public ToLowerTests()
-        {
-            //[Namespace.class name, assembly name] for the class/assembly being tested
-            //Namespace and class name can be found on the class file being tested
-            //Assembly name can be found under the project properties on the Application tab
-            _namespaceClassAssembly = "LAT.WorkflowUtilities.String.ToLower" + ", " + "LAT.WorkflowUtilities.String";
-        }
-        #endregion
         #region Test Initialization and Cleanup
         // Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize()]
@@ -42,101 +28,44 @@ namespace LAT.WorkflowUtilities.String.Tests
         [TestMethod]
         public void StringNone()
         {
-            //Target
-            Entity targetEntity = null;
+            //Arrange
+            XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            //Input parameters
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToLower", "Hello World"}
             };
 
-            //Expected value
+            XrmFakedContext xrmFakedContext = new XrmFakedContext();
+
             const string expected = "hello world";
 
-            //Invoke the workflow
-            var output = InvokeWorkflow(_namespaceClassAssembly, ref targetEntity, inputs, null);
+            //Act
+            var result = xrmFakedContext.ExecuteCodeActivity<ToLower>(workflowContext, inputs);
 
-            //Test
-            Assert.AreEqual(expected, output["LoweredString"]);
+            //Assert
+            Assert.AreEqual(expected, result["LoweredString"]);
         }
 
         [TestMethod]
         public void String_enUS()
         {
-            //Target
-            Entity targetEntity = null;
+            //Arrange
+            XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            //Input parameters
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToLower", "Hello World"}
             };
+            XrmFakedContext xrmFakedContext = new XrmFakedContext();
 
-            //Expected value
             const string expected = "hello world";
 
-            //Invoke the workflow
-            var output = InvokeWorkflow(_namespaceClassAssembly, ref targetEntity, inputs, null);
+            //Act
+            var result = xrmFakedContext.ExecuteCodeActivity<ToLower>(workflowContext, inputs);
 
-            //Test
-            Assert.AreEqual(expected, output["LoweredString"]);
-        }
-
-        /// <summary>
-        /// Invokes the workflow.
-        /// </summary>
-        /// <param name="name">Namespace.Class, Assembly</param>
-        /// <param name="target">The target entity</param>
-        /// <param name="inputs">The workflow input parameters</param>
-        /// <param name="configuredServiceMock">The function to configure the Organization Service</param>
-        /// <returns>The workflow output parameters</returns>
-        private static IDictionary<string, object> InvokeWorkflow(string name, ref Entity target, Dictionary<string, object> inputs,
-            Func<Mock<IOrganizationService>, Mock<IOrganizationService>> configuredServiceMock)
-        {
-            var testClass = Activator.CreateInstance(Type.GetType(name)) as CodeActivity; ;
-
-            var serviceMock = new Mock<IOrganizationService>();
-            var factoryMock = new Mock<IOrganizationServiceFactory>();
-            var tracingServiceMock = new Mock<ITracingService>();
-            var workflowContextMock = new Mock<IWorkflowContext>();
-
-            //Apply configured Organization Service Mock
-            if (configuredServiceMock != null)
-                serviceMock = configuredServiceMock(serviceMock);
-
-            IOrganizationService service = serviceMock.Object;
-
-            //Mock workflow Context
-            var workflowUserId = Guid.NewGuid();
-            var workflowCorrelationId = Guid.NewGuid();
-            var workflowInitiatingUserId = Guid.NewGuid();
-
-            //Workflow Context Mock
-            workflowContextMock.Setup(t => t.InitiatingUserId).Returns(workflowInitiatingUserId);
-            workflowContextMock.Setup(t => t.CorrelationId).Returns(workflowCorrelationId);
-            workflowContextMock.Setup(t => t.UserId).Returns(workflowUserId);
-            var workflowContext = workflowContextMock.Object;
-
-            //Organization Service Factory Mock
-            factoryMock.Setup(t => t.CreateOrganizationService(It.IsAny<Guid>())).Returns(service);
-            var factory = factoryMock.Object;
-
-            //Tracing Service - Content written appears in output
-            tracingServiceMock.Setup(t => t.Trace(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>(MoqExtensions.WriteTrace);
-            var tracingService = tracingServiceMock.Object;
-
-            //Parameter Collection
-            ParameterCollection inputParameters = new ParameterCollection { { "Target", target } };
-            workflowContextMock.Setup(t => t.InputParameters).Returns(inputParameters);
-
-            //Workflow Invoker
-            var invoker = new WorkflowInvoker(testClass);
-            invoker.Extensions.Add(() => tracingService);
-            invoker.Extensions.Add(() => workflowContext);
-            invoker.Extensions.Add(() => factory);
-
-            return invoker.Invoke(inputs);
+            //Assert
+            Assert.AreEqual(expected, result["LoweredString"]);
         }
     }
 }

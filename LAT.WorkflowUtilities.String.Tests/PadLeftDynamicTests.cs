@@ -1,9 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
-using Moq;
-using System;
-using System.Activities;
+﻿using FakeXrmEasy;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
 namespace LAT.WorkflowUtilities.String.Tests
@@ -11,16 +7,6 @@ namespace LAT.WorkflowUtilities.String.Tests
     [TestClass]
     public class PadLeftDynamicTests
     {
-        #region Class Constructor
-        private readonly string _namespaceClassAssembly;
-        public PadLeftDynamicTests()
-        {
-            //[Namespace.class name, assembly name] for the class/assembly being tested
-            //Namespace and class name can be found on the class file being tested
-            //Assembly name can be found under the project properties on the Application tab
-            _namespaceClassAssembly = "LAT.WorkflowUtilities.String.PadLeftDynamic" + ", " + "LAT.WorkflowUtilities.String";
-        }
-        #endregion
         #region Test Initialization and Cleanup
         // Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize()]
@@ -42,201 +28,145 @@ namespace LAT.WorkflowUtilities.String.Tests
         [TestMethod]
         public void Single0()
         {
-            //Target
-            Entity targetEntity = null;
+            //Arrange
+            XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            //Input parameters
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToPad", "123456"},
                 { "PadCharacter", "0" },
                 { "Length", 0 }
             };
 
-            //Expected value
+            XrmFakedContext xrmFakedContext = new XrmFakedContext();
+
             const string expected = "123456";
 
-            //Invoke the workflow
-            var output = InvokeWorkflow(_namespaceClassAssembly, ref targetEntity, inputs, null);
+            //Act
+            var result = xrmFakedContext.ExecuteCodeActivity<PadLeftDynamic>(workflowContext, inputs);
 
-            //Test
-            Assert.AreEqual(expected, output["PaddedString"]);
+            //Assert
+            Assert.AreEqual(expected, result["PaddedString"]);
         }
 
         [TestMethod]
         public void Single1()
         {
-            //Target
-            Entity targetEntity = null;
+            //Arrange
+            XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            //Input parameters
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToPad", "12345"},
                 { "PadCharacter", "0" },
                 { "Length", 6 }
             };
 
-            //Expected value
+            XrmFakedContext xrmFakedContext = new XrmFakedContext();
+
             const string expected = "012345";
 
-            //Invoke the workflow
-            var output = InvokeWorkflow(_namespaceClassAssembly, ref targetEntity, inputs, null);
+            //Act
+            var result = xrmFakedContext.ExecuteCodeActivity<PadLeftDynamic>(workflowContext, inputs);
 
-            //Test
-            Assert.AreEqual(expected, output["PaddedString"]);
+            //Assert
+            Assert.AreEqual(expected, result["PaddedString"]);
         }
 
         [TestMethod]
         public void Single2()
         {
-            //Target
-            Entity targetEntity = null;
+            //Arrange
+            XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            //Input parameters
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToPad", "1234"},
                 { "PadCharacter", "0" },
                 { "Length", 6 }
             };
 
-            //Expected value
+            XrmFakedContext xrmFakedContext = new XrmFakedContext();
+
             const string expected = "001234";
 
-            //Invoke the workflow
-            var output = InvokeWorkflow(_namespaceClassAssembly, ref targetEntity, inputs, null);
+            //Act
+            var result = xrmFakedContext.ExecuteCodeActivity<PadLeftDynamic>(workflowContext, inputs);
 
-            //Test
-            Assert.AreEqual(expected, output["PaddedString"]);
+            //Assert
+            Assert.AreEqual(expected, result["PaddedString"]);
         }
 
         [TestMethod]
         public void Multiple0()
         {
-            //Target
-            Entity targetEntity = null;
+            //Arrange
+            XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            //Input parameters
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToPad", "123456"},
                 { "PadCharacter", "XX" },
                 { "Length", 0 }
             };
 
-            //Expected value
+            XrmFakedContext xrmFakedContext = new XrmFakedContext();
+
             const string expected = "123456";
 
-            //Invoke the workflow
-            var output = InvokeWorkflow(_namespaceClassAssembly, ref targetEntity, inputs, null);
+            //Act
+            var result = xrmFakedContext.ExecuteCodeActivity<PadLeftDynamic>(workflowContext, inputs);
 
-            //Test
-            Assert.AreEqual(expected, output["PaddedString"]);
+            //Assert
+            Assert.AreEqual(expected, result["PaddedString"]);
         }
 
         [TestMethod]
         public void Multiple1()
         {
-            //Target
-            Entity targetEntity = null;
+            //Arrange
+            XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            //Input parameters
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToPad", "12345"},
                 { "PadCharacter", "XX" },
                 { "Length", 6 }
             };
 
-            //Expected value
+            XrmFakedContext xrmFakedContext = new XrmFakedContext();
+
             const string expected = "XX12345";
 
-            //Invoke the workflow
-            var output = InvokeWorkflow(_namespaceClassAssembly, ref targetEntity, inputs, null);
+            //Act
+            var result = xrmFakedContext.ExecuteCodeActivity<PadLeftDynamic>(workflowContext, inputs);
 
-            //Test
-            Assert.AreEqual(expected, output["PaddedString"]);
+            //Assert
+            Assert.AreEqual(expected, result["PaddedString"]);
         }
 
         [TestMethod]
         public void Multiple2()
         {
-            //Target
-            Entity targetEntity = null;
+            //Arrange
+            XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            //Input parameters
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToPad", "1234"},
                 { "PadCharacter", "XX" },
                 { "Length", 8 }
             };
 
-            //Expected value
+            XrmFakedContext xrmFakedContext = new XrmFakedContext();
+
             const string expected = "XXXX1234";
 
-            //Invoke the workflow
-            var output = InvokeWorkflow(_namespaceClassAssembly, ref targetEntity, inputs, null);
+            //Act
+            var result = xrmFakedContext.ExecuteCodeActivity<PadLeftDynamic>(workflowContext, inputs);
 
-            //Test
-            Assert.AreEqual(expected, output["PaddedString"]);
-        }
-
-        /// <summary>
-        /// Invokes the workflow.
-        /// </summary>
-        /// <param name="name">Namespace.Class, Assembly</param>
-        /// <param name="target">The target entity</param>
-        /// <param name="inputs">The workflow input parameters</param>
-        /// <param name="configuredServiceMock">The function to configure the Organization Service</param>
-        /// <returns>The workflow output parameters</returns>
-        private static IDictionary<string, object> InvokeWorkflow(string name, ref Entity target, Dictionary<string, object> inputs,
-            Func<Mock<IOrganizationService>, Mock<IOrganizationService>> configuredServiceMock)
-        {
-            var testClass = Activator.CreateInstance(Type.GetType(name)) as CodeActivity; ;
-
-            var serviceMock = new Mock<IOrganizationService>();
-            var factoryMock = new Mock<IOrganizationServiceFactory>();
-            var tracingServiceMock = new Mock<ITracingService>();
-            var workflowContextMock = new Mock<IWorkflowContext>();
-
-            //Apply configured Organization Service Mock
-            if (configuredServiceMock != null)
-                serviceMock = configuredServiceMock(serviceMock);
-
-            IOrganizationService service = serviceMock.Object;
-
-            //Mock workflow Context
-            var workflowUserId = Guid.NewGuid();
-            var workflowCorrelationId = Guid.NewGuid();
-            var workflowInitiatingUserId = Guid.NewGuid();
-
-            //Workflow Context Mock
-            workflowContextMock.Setup(t => t.InitiatingUserId).Returns(workflowInitiatingUserId);
-            workflowContextMock.Setup(t => t.CorrelationId).Returns(workflowCorrelationId);
-            workflowContextMock.Setup(t => t.UserId).Returns(workflowUserId);
-            var workflowContext = workflowContextMock.Object;
-
-            //Organization Service Factory Mock
-            factoryMock.Setup(t => t.CreateOrganizationService(It.IsAny<Guid>())).Returns(service);
-            var factory = factoryMock.Object;
-
-            //Tracing Service - Content written appears in output
-            tracingServiceMock.Setup(t => t.Trace(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>(MoqExtensions.WriteTrace);
-            var tracingService = tracingServiceMock.Object;
-
-            //Parameter Collection
-            ParameterCollection inputParameters = new ParameterCollection { { "Target", target } };
-            workflowContextMock.Setup(t => t.InputParameters).Returns(inputParameters);
-
-            //Workflow Invoker
-            var invoker = new WorkflowInvoker(testClass);
-            invoker.Extensions.Add(() => tracingService);
-            invoker.Extensions.Add(() => workflowContext);
-            invoker.Extensions.Add(() => factory);
-
-            return invoker.Invoke(inputs);
+            //Assert
+            Assert.AreEqual(expected, result["PaddedString"]);
         }
     }
 }
