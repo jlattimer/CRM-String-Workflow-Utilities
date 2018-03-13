@@ -26,7 +26,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void String1()
+        public void Reverse_Single_Word()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -48,7 +48,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void String2()
+        public void Reverse_Multiple_Words()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();

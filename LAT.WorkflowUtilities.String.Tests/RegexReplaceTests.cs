@@ -26,7 +26,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void ReplaceSingle()
+        public void RegexReplace_Replace_Single()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -50,7 +50,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void ReplaceMultiple()
+        public void RegexReplace_Replace_Multiple()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -74,7 +74,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void ReplaceExtraWhiteSpace()
+        public void RegexReplace_Replace_Extra_White_Space()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -98,7 +98,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void ReplaceExtraWhiteSpaceWithNull()
+        public void RegexReplace_Replace_Extra_White_Space_With_Null()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -122,7 +122,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void ReplaceHtmlTag()
+        public void RegexReplace_Replace_Html_Tag()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -146,7 +146,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void NotReplaced()
+        public void RegexReplace_Not_Replaced()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();

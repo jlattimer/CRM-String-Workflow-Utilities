@@ -26,7 +26,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void Single0()
+        public void PadLeftDynamic_Single_Character_Length_0()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -50,7 +50,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Single1()
+        public void PadLeftDynamic_Single_Character_Length_1()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -74,7 +74,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Single2()
+        public void PadLeftDynamic_Single_Character_Length_6()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -98,7 +98,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Multiple0()
+        public void PadLeftDynamic_Multiple_Characters_Length_0()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -122,7 +122,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Multiple1()
+        public void PadLeftDynamic_Multiple_Characters_Length_6()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -146,7 +146,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Multiple2()
+        public void PadLeftDynamic_Multiple_Characters_Length_8()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();

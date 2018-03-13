@@ -26,7 +26,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void StringNone()
+        public void ToLower_String()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -36,27 +36,6 @@ namespace LAT.WorkflowUtilities.String.Tests
                 { "StringToLower", "Hello World"}
             };
 
-            XrmFakedContext xrmFakedContext = new XrmFakedContext();
-
-            const string expected = "hello world";
-
-            //Act
-            var result = xrmFakedContext.ExecuteCodeActivity<ToLower>(workflowContext, inputs);
-
-            //Assert
-            Assert.AreEqual(expected, result["LoweredString"]);
-        }
-
-        [TestMethod]
-        public void String_enUS()
-        {
-            //Arrange
-            XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
-
-            var inputs = new Dictionary<string, object>
-            {
-                { "StringToLower", "Hello World"}
-            };
             XrmFakedContext xrmFakedContext = new XrmFakedContext();
 
             const string expected = "hello world";

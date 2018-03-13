@@ -26,7 +26,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void Given_PlainString_Then_EncodeSuccessfully()
+        public void EncodeHtml_Given_PlainString_Then_EncodeSuccessfully()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();

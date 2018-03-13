@@ -26,12 +26,12 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void StringStringSpace()
+        public void Join_String_String_Space()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "String1", "Hello"},
                 { "String2", "World" },
@@ -50,12 +50,12 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void StringStringNull()
+        public void Join_String_String_Null()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "String1", "Hello"},
                 { "String2", "World" },

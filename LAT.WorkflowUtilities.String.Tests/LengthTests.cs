@@ -26,7 +26,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void RegaularString()
+        public void Length_Regaular_String()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -48,7 +48,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void NullString()
+        public void Length_Null_String()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -70,7 +70,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void EmptyString()
+        public void Length_Empty_String()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();

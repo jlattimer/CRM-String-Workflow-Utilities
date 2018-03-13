@@ -26,12 +26,12 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void StringIntInt()
+        public void Substring_Start_0_Length_5()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToParse", "Hello World"},
                 { "StartPosition", 0 },
@@ -50,12 +50,12 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void StringIntNull()
+        public void Substring_Start_6_Length_Null()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToParse", "Hello World"},
                 { "StartPosition", 6 },
@@ -74,12 +74,12 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void StringNegativeNull()
+        public void Substring_Start_Minus2_Length_Null()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToParse", "Hello World"},
                 { "StartPosition", -2 },
@@ -98,12 +98,12 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void StringIntTooLong()
+        public void Substring_Start_0_Length_100()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
-            var inputs = new Dictionary<string, object> 
+            var inputs = new Dictionary<string, object>
             {
                 { "StringToParse", "Hello World"},
                 { "StartPosition", 0 },

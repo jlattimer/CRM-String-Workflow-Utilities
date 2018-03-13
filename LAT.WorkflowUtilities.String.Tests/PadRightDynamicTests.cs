@@ -26,7 +26,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void Single0()
+        public void PadRightDynamic_Single_Character_Length_0()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -50,7 +50,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Single1()
+        public void PadRightDynamic_Single_Character_Length_6()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -74,7 +74,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Single2()
+        public void PadRightDynamic_Single_Character_Length_8()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -83,12 +83,12 @@ namespace LAT.WorkflowUtilities.String.Tests
             {
                 { "StringToPad", "1234"},
                 { "PadCharacter", "0" },
-                { "Length", 6 }
+                { "Length", 8 }
             };
 
             XrmFakedContext xrmFakedContext = new XrmFakedContext();
 
-            const string expected = "123400";
+            const string expected = "12340000";
 
             //Act
             var result = xrmFakedContext.ExecuteCodeActivity<PadRightDynamic>(workflowContext, inputs);
@@ -98,7 +98,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Multiple0()
+        public void PadRightDynamic_Multiple_Characters_Length_0()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -122,7 +122,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Multiple1()
+        public void PadRightDynamic_Multiple_Characters_Length_6()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -146,7 +146,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Multiple2()
+        public void PadRightDynamic_Multiple_Characters_Length_8()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();

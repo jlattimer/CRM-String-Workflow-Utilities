@@ -26,7 +26,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void StringLower()
+        public void ToTitleCase_Lower_Case_String()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -48,7 +48,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void StringUpper()
+        public void ToTitleCase_Upper_Case_String()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
@@ -69,7 +69,7 @@ namespace LAT.WorkflowUtilities.String.Tests
             Assert.AreEqual(expected, result["TitleCasedString"]);
         }
         [TestMethod]
-        public void StringMixed()
+        public void ToTitleCase_Mixed_Case_String()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();

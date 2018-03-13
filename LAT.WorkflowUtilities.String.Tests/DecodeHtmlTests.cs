@@ -26,14 +26,14 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void Given_EmptyString_Then_EmptyStringReturn()
+        public void DecodeHtml_Given_EmptyString_Then_EmptyStringReturn()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
 
             var inputs = new Dictionary<string, object>
             {
-                { "StringToDecode", System.String.Empty },
+                { "StringToDecode", string.Empty },
             };
 
             XrmFakedContext xrmFakedContext = new XrmFakedContext();
@@ -48,7 +48,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         }
 
         [TestMethod]
-        public void Given_HtmlEncodedString_Then_DecodeSuccessfully()
+        public void DecodeHtml_Given_HtmlEncodedString_Then_DecodeSuccessfully()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();

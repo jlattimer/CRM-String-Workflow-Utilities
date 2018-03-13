@@ -26,29 +26,7 @@ namespace LAT.WorkflowUtilities.String.Tests
         #endregion
 
         [TestMethod]
-        public void StringNone()
-        {
-            //Arrange
-            XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
-
-            var inputs = new Dictionary<string, object>
-            {
-                { "StringToUpper", "Hello World"}
-            };
-
-            XrmFakedContext xrmFakedContext = new XrmFakedContext();
-
-            const string expected = "HELLO WORLD";
-
-            //Act
-            var result = xrmFakedContext.ExecuteCodeActivity<ToUpper>(workflowContext, inputs);
-
-            //Assert
-            Assert.AreEqual(expected, result["UpperedString"]);
-        }
-
-        [TestMethod]
-        public void String_enUS()
+        public void ToUpper_String()
         {
             //Arrange
             XrmFakedWorkflowContext workflowContext = new XrmFakedWorkflowContext();
