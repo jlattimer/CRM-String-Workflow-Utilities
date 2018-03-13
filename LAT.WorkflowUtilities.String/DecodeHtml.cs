@@ -1,13 +1,16 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
 using System.Net;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public class DecodeHtml : CodeActivity
+    public class DecodeHtml : WorkFlowActivityBase
     {
+        public DecodeHtml() : base(typeof(DecodeHtml)) { }
+
         [RequiredArgument]
         [Input("String To Decode")]
         public InArgument<string> StringToDecode { get; set; }
@@ -15,21 +18,17 @@ namespace LAT.WorkflowUtilities.String
         [Output("Decoded String")]
         public OutArgument<string> DecodedString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string strToDecode = StringToDecode.Get(executionContext);
-                string decodedString = WebUtility.HtmlDecode(strToDecode);
-                DecodedString.Set(executionContext, decodedString);
-            }
-            catch (Exception e)
-            {
-                tracer.Trace("Exception: {0}", e.ToString());
-                throw new InvalidPluginExecutionException(e.Message);
-            }
+            string strToDecode = StringToDecode.Get(context);
+            string decodedString = WebUtility.HtmlDecode(strToDecode);
+
+            DecodedString.Set(context, decodedString);
         }
     }
 }

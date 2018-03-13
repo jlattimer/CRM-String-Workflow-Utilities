@@ -1,12 +1,15 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public sealed class EndsWith : CodeActivity
+    public sealed class EndsWith : WorkFlowActivityBase
     {
+        public EndsWith() : base(typeof(EndsWith)) { }
+
         [RequiredArgument]
         [Input("String To Search")]
         public InArgument<string> StringToSearch { get; set; }
@@ -20,28 +23,24 @@ namespace LAT.WorkflowUtilities.String
         [Default("false")]
         public InArgument<bool> CaseSensitive { get; set; }
 
-        [OutputAttribute("Ends With String")]
+        [Output("Ends With String")]
         public OutArgument<bool> EndsWithString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string stringToSearch = StringToSearch.Get(executionContext);
-                string searchFor = SearchFor.Get(executionContext);
-                bool caseSensitive = CaseSensitive.Get(executionContext);
+            string stringToSearch = StringToSearch.Get(context);
+            string searchFor = SearchFor.Get(context);
+            bool caseSensitive = CaseSensitive.Get(context);
 
-                bool endsWithString = stringToSearch.EndsWith(searchFor,
-                    (caseSensitive) ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+            bool endsWithString = stringToSearch.EndsWith(searchFor,
+                (caseSensitive) ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
 
-                EndsWithString.Set(executionContext, endsWithString);
-            }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+            EndsWithString.Set(context, endsWithString);
         }
     }
 }

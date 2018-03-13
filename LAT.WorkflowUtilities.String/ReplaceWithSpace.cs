@@ -1,48 +1,47 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-	public sealed class ReplaceWithSpace : CodeActivity
-	{
-		[RequiredArgument]
-		[Input("String To Search")]
-		public InArgument<string> StringToSearch { get; set; }
+    public sealed class ReplaceWithSpace : WorkFlowActivityBase
+    {
+        public ReplaceWithSpace() : base(typeof(ReplaceWithSpace)) { }
 
-		[RequiredArgument]
-		[Input("Value To Replace")]
-		public InArgument<string> ValueToReplace { get; set; }
+        [RequiredArgument]
+        [Input("String To Search")]
+        public InArgument<string> StringToSearch { get; set; }
 
-		[RequiredArgument]
-		[Input("Number Of Spaces")]
-		public InArgument<int> NumberOfSpaces { get; set; }
+        [RequiredArgument]
+        [Input("Value To Replace")]
+        public InArgument<string> ValueToReplace { get; set; }
 
-		[OutputAttribute("Replaced String")]
-		public OutArgument<string> ReplacedString { get; set; }
+        [RequiredArgument]
+        [Input("Number Of Spaces")]
+        public InArgument<int> NumberOfSpaces { get; set; }
 
-		protected override void Execute(CodeActivityContext executionContext)
-		{
-			ITracingService tracer = executionContext.GetExtension<ITracingService>();
+        [Output("Replaced String")]
+        public OutArgument<string> ReplacedString { get; set; }
 
-			try
-			{
-				string stringToSearch = StringToSearch.Get(executionContext);
-				string valueToReplace = ValueToReplace.Get(executionContext);
-				int numberOfSpaces = NumberOfSpaces.Get(executionContext);
-				
-				string spaces = "";
-				spaces = spaces.PadRight(numberOfSpaces, ' ');
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-				string replacedString = stringToSearch.Replace(valueToReplace, spaces);
+            string stringToSearch = StringToSearch.Get(context);
+            string valueToReplace = ValueToReplace.Get(context);
+            int numberOfSpaces = NumberOfSpaces.Get(context);
 
-				ReplacedString.Set(executionContext, replacedString);
-			}
-			catch (Exception ex)
-			{
-				tracer.Trace("Exception: {0}", ex.ToString());
-			}
-		}
-	}
+            string spaces = "";
+            spaces = spaces.PadRight(numberOfSpaces, ' ');
+
+            string replacedString = stringToSearch.Replace(valueToReplace, spaces);
+
+            ReplacedString.Set(context, replacedString);
+        }
+    }
 }

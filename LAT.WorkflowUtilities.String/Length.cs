@@ -1,35 +1,39 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public class Length : CodeActivity
+    public class Length : WorkFlowActivityBase
     {
+        public Length() : base(typeof(Length)) { }
+
         [RequiredArgument]
         [Input("String To Measure")]
         public InArgument<string> StringToMeasure { get; set; }
 
-        [OutputAttribute("String Length")]
+        [Output("String Length")]
         public OutArgument<int> StringLength { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
+            string stringToMeasure = StringToMeasure.Get(context);
+            if (string.IsNullOrEmpty(stringToMeasure))
             {
-                string stringToMeasure = StringToMeasure.Get(executionContext);
-
-                int stringLength = stringToMeasure.Length;
-
-                StringLength.Set(executionContext, stringLength);
+                StringLength.Set(context, 0);
+                return;
             }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+
+            int stringLength = stringToMeasure.Length;
+
+            StringLength.Set(context, stringLength);
         }
     }
 }

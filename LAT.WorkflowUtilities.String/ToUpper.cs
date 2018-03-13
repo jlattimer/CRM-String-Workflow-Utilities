@@ -1,35 +1,33 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public sealed class ToUpper : CodeActivity
+    public sealed class ToUpper : WorkFlowActivityBase
     {
+        public ToUpper() : base(typeof(ToUpper)) { }
+
         [RequiredArgument]
         [Input("String To Upper")]
         public InArgument<string> StringToUpper { get; set; }
 
-        [OutputAttribute("Uppered String")]
+        [Output("Uppered String")]
         public OutArgument<string> UpperedString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string stringToUpper = StringToUpper.Get(executionContext);
+            string stringToUpper = StringToUpper.Get(context);
+            string upperedString = stringToUpper.ToUpper();
 
-                string upperedString = stringToUpper.ToUpper();
-
-                UpperedString.Set(executionContext, upperedString);
-            }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+            UpperedString.Set(context, upperedString);
         }
     }
 }

@@ -1,13 +1,16 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
 using System.Text.RegularExpressions;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public class RegexExtract : CodeActivity
+    public class RegexExtract : WorkFlowActivityBase
     {
+        public RegexExtract() : base(typeof(RegexExtract)) { }
+
         [RequiredArgument]
         [Input("String To Search")]
         public InArgument<string> StringToSearch { get; set; }
@@ -16,34 +19,30 @@ namespace LAT.WorkflowUtilities.String
         [Input("Pattern")]
         public InArgument<string> Pattern { get; set; }
 
-        [OutputAttribute("Extracted String")]
+        [Output("Extracted String")]
         public OutArgument<string> ExtractedString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
+            string stringToSearch = StringToSearch.Get(context);
+            string pattern = Pattern.Get(context);
+
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            Match match = regex.Match(stringToSearch);
+
+            if (match.Success)
             {
-                string stringToSearch = StringToSearch.Get(executionContext);
-                string pattern = Pattern.Get(executionContext);
-
-                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                Match match = regex.Match(stringToSearch);
-
-                if (match.Success)
-                {
-                    string extractedString = match.Value;
-                    ExtractedString.Set(executionContext, extractedString);
-                    return;
-                }
-
-                ExtractedString.Set(executionContext, null);
+                string extractedString = match.Value;
+                ExtractedString.Set(context, extractedString);
+                return;
             }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+
+            ExtractedString.Set(context, null);
         }
     }
 }

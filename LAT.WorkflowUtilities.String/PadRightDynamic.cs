@@ -1,12 +1,15 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public sealed class PadRightDynamic : CodeActivity
+    public sealed class PadRightDynamic : WorkFlowActivityBase
     {
+        public PadRightDynamic() : base(typeof(PadRightDynamic)) { }
+
         [RequiredArgument]
         [Input("String To Pad")]
         public InArgument<string> StringToPad { get; set; }
@@ -19,32 +22,28 @@ namespace LAT.WorkflowUtilities.String
         [Input("Length")]
         public InArgument<int> Length { get; set; }
 
-        [OutputAttribute("Padded String")]
+        [Output("Padded String")]
         public OutArgument<string> PaddedString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
+            string stringToPad = StringToPad.Get(context);
+            string padCharacter = PadCharacter.Get(context);
+            int length = Length.Get(context);
+
+            string paddedString = stringToPad;
+
+            while (paddedString.Length < length)
             {
-                string stringToPad = StringToPad.Get(executionContext);
-                string padCharacter = PadCharacter.Get(executionContext);
-                int length = Length.Get(executionContext);
-
-                string paddedString = stringToPad;
-
-                while (paddedString.Length < length)
-                {
-                    paddedString += padCharacter;
-                }
-
-                PaddedString.Set(executionContext, paddedString);
+                paddedString += padCharacter;
             }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+
+            PaddedString.Set(context, paddedString);
         }
     }
 }

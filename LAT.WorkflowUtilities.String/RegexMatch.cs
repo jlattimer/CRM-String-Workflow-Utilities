@@ -1,13 +1,16 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
 using System.Text.RegularExpressions;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public sealed class RegexMatch : CodeActivity
+    public sealed class RegexMatch : WorkFlowActivityBase
     {
+        public RegexMatch() : base(typeof(RegexMatch)) { }
+
         [RequiredArgument]
         [Input("String To Search")]
         public InArgument<string> StringToSearch { get; set; }
@@ -16,28 +19,24 @@ namespace LAT.WorkflowUtilities.String
         [Input("Pattern")]
         public InArgument<string> Pattern { get; set; }
 
-        [OutputAttribute("Contains Pattern")]
+        [Output("Contains Pattern")]
         public OutArgument<bool> ContainsPattern { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string stringToSearch = StringToSearch.Get(executionContext);
-                string pattern = Pattern.Get(executionContext);
+            string stringToSearch = StringToSearch.Get(context);
+            string pattern = Pattern.Get(context);
 
-                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                Match match = regex.Match(stringToSearch);
-                bool containsPattern = match.Success;
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            Match match = regex.Match(stringToSearch);
+            bool containsPattern = match.Success;
 
-                ContainsPattern.Set(executionContext, containsPattern);
-            }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+            ContainsPattern.Set(context, containsPattern);
         }
     }
 }

@@ -1,13 +1,16 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
 using System.Text.RegularExpressions;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public sealed class RegexReplace : CodeActivity
+    public sealed class RegexReplace : WorkFlowActivityBase
     {
+        public RegexReplace() : base(typeof(RegexReplace)) { }
+
         [RequiredArgument]
         [Input("String To Search")]
         public InArgument<string> StringToSearch { get; set; }
@@ -19,32 +22,28 @@ namespace LAT.WorkflowUtilities.String
         [Input("Pattern")]
         public InArgument<string> Pattern { get; set; }
 
-        [OutputAttribute("Replaced String")]
+        [Output("Replaced String")]
         public OutArgument<string> ReplacedString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string stringToSearch = StringToSearch.Get(executionContext);
-                string replacementValue = ReplacementValue.Get(executionContext);
-                string pattern = Pattern.Get(executionContext);
+            string stringToSearch = StringToSearch.Get(context);
+            string replacementValue = ReplacementValue.Get(context);
+            string pattern = Pattern.Get(context);
 
-                if (string.IsNullOrEmpty(replacementValue))
-                    replacementValue = "";
+            if (string.IsNullOrEmpty(replacementValue))
+                replacementValue = "";
 
-                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
 
-                string replacedString = regex.Replace(stringToSearch, replacementValue);
+            string replacedString = regex.Replace(stringToSearch, replacementValue);
 
-                ReplacedString.Set(executionContext, replacedString);
-            }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+            ReplacedString.Set(context, replacedString);
         }
     }
 }

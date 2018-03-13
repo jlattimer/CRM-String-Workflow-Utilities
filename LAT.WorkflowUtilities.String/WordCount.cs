@@ -1,35 +1,34 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public sealed class WordCount : CodeActivity
+    public sealed class WordCount : WorkFlowActivityBase
     {
+        public WordCount() : base(typeof(WordCount)) { }
+
         [RequiredArgument]
         [Input("String To Count")]
         public InArgument<string> StringToCount { get; set; }
 
-        [OutputAttribute("Word Count")]
+        [Output("Word Count")]
         public OutArgument<int> Count { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string stringToCount = StringToCount.Get(executionContext);
+            string stringToCount = StringToCount.Get(context);
 
-                string[] words = stringToCount.Trim().Split(' ');
+            string[] words = stringToCount.Trim().Split(' ');
 
-                Count.Set(executionContext, words.Length);
-            }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+            Count.Set(context, words.Length);
         }
     }
 }

@@ -71,6 +71,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Random.cs" />
+    <Compile Include="WorkFlowActivityBase.cs" />
     <Compile Include="Contains.cs" />
     <Compile Include="DecodeHtml.cs" />
     <Compile Include="EncodeHtml.cs" />

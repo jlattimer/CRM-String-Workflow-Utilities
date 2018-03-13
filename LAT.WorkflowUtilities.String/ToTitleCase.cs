@@ -1,38 +1,37 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
 using System.Globalization;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public sealed class ToTitleCase : CodeActivity
+    public sealed class ToTitleCase : WorkFlowActivityBase
     {
+        public ToTitleCase() : base(typeof(ToTitleCase)) { }
+
         [RequiredArgument]
         [Input("String To Title Case")]
         public InArgument<string> StringToTitleCase { get; set; }
 
-        [OutputAttribute("Title Cased String")]
+        [Output("Title Cased String")]
         public OutArgument<string> TitleCasedString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string stringToTitleCase = StringToTitleCase.Get(executionContext);
+            string stringToTitleCase = StringToTitleCase.Get(context);
 
-                TextInfo ti = CultureInfo.CurrentCulture.TextInfo;
+            TextInfo ti = CultureInfo.CurrentCulture.TextInfo;
 
-                string titleCasedString = ti.ToTitleCase(stringToTitleCase);
+            string titleCasedString = ti.ToTitleCase(stringToTitleCase);
 
-                TitleCasedString.Set(executionContext, titleCasedString);
-            }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+            TitleCasedString.Set(context, titleCasedString);
         }
     }
 }

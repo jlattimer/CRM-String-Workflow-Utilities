@@ -1,12 +1,15 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public sealed class StartsWith : CodeActivity
+    public sealed class StartsWith : WorkFlowActivityBase
     {
+        public StartsWith() : base(typeof(StartsWith)) { }
+
         [RequiredArgument]
         [Input("String To Search")]
         public InArgument<string> StringToSearch { get; set; }
@@ -20,28 +23,24 @@ namespace LAT.WorkflowUtilities.String
         [Default("false")]
         public InArgument<bool> CaseSensitive { get; set; }
 
-        [OutputAttribute("Starts With String")]
+        [Output("Starts With String")]
         public OutArgument<bool> StartsWithString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string stringToSearch = StringToSearch.Get(executionContext);
-                string searchFor = SearchFor.Get(executionContext);
-                bool caseSensitive = CaseSensitive.Get(executionContext);
+            string stringToSearch = StringToSearch.Get(context);
+            string searchFor = SearchFor.Get(context);
+            bool caseSensitive = CaseSensitive.Get(context);
 
-                bool startsWithString = stringToSearch.StartsWith(searchFor,
-                    (caseSensitive) ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+            bool startsWithString = stringToSearch.StartsWith(searchFor,
+                (caseSensitive) ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
 
-                StartsWithString.Set(executionContext, startsWithString);
-            }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+            StartsWithString.Set(context, startsWithString);
         }
     }
 }

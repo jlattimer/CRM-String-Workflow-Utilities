@@ -1,13 +1,16 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
 using System.Net;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public class EncodeHtml : CodeActivity
+    public class EncodeHtml : WorkFlowActivityBase
     {
+        public EncodeHtml() : base(typeof(EncodeHtml)) { }
+
         [RequiredArgument]
         [Input("String To Encode")]
         public InArgument<string> StringToEncode { get; set; }
@@ -15,21 +18,17 @@ namespace LAT.WorkflowUtilities.String
         [Output("Encoded String")]
         public OutArgument<string> EncodedString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string strToEncode = StringToEncode.Get(executionContext);
-                string encodedString = WebUtility.HtmlEncode(strToEncode);
-                EncodedString.Set(executionContext, encodedString);
-            }
-            catch (Exception e)
-            {
-                tracer.Trace("Exception: {0}", e.ToString());
-                throw new InvalidPluginExecutionException(e.Message);
-            }
+            string strToEncode = StringToEncode.Get(context);
+            string encodedString = WebUtility.HtmlEncode(strToEncode);
+
+            EncodedString.Set(context, encodedString);
         }
     }
 }

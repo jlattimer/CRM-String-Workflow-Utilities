@@ -1,35 +1,34 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public class CreateEmptySpaces : CodeActivity
+    public class CreateEmptySpaces : WorkFlowActivityBase
     {
+        public CreateEmptySpaces() : base(typeof(CreateEmptySpaces)) { }
+
         [RequiredArgument]
         [Input("Number Of Spaces")]
         public InArgument<int> NumberOfSpaces { get; set; }
 
-        [OutputAttribute("Empty String")]
+        [Output("Empty String")]
         public OutArgument<string> EmptyString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                int numberOfSpaces = NumberOfSpaces.Get(executionContext);
+            int numberOfSpaces = NumberOfSpaces.Get(context);
 
-                string emptyString = new string(' ', numberOfSpaces);
+            string emptyString = new string(' ', numberOfSpaces);
 
-                EmptyString.Set(executionContext, emptyString);
-            }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+            EmptyString.Set(context, emptyString);
         }
     }
 }

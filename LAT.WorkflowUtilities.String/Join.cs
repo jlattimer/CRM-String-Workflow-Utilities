@@ -1,12 +1,15 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public sealed class Join : CodeActivity
+    public sealed class Join : WorkFlowActivityBase
     {
+        public Join() : base(typeof(Join)) { }
+
         [RequiredArgument]
         [Input("String 1")]
         public InArgument<string> String1 { get; set; }
@@ -18,27 +21,23 @@ namespace LAT.WorkflowUtilities.String
         [Input("Joiner")]
         public InArgument<string> Joiner { get; set; }
 
-        [OutputAttribute("Joined String")]
+        [Output("Joined String")]
         public OutArgument<string> JoinedString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string string1 = String1.Get(executionContext);
-                string string2 = String2.Get(executionContext);
-                string joiner = Joiner.Get(executionContext);
+            string string1 = String1.Get(context);
+            string string2 = String2.Get(context);
+            string joiner = Joiner.Get(context);
 
-                string joinedString = System.String.Join(joiner, string1, string2);
+            string joinedString = string.Join(joiner, string1, string2);
 
-                JoinedString.Set(executionContext, joinedString);
-            }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+            JoinedString.Set(context, joinedString);
         }
     }
 }

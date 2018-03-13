@@ -1,35 +1,34 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Workflow;
+﻿using Microsoft.Xrm.Sdk.Workflow;
 using System;
 using System.Activities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace LAT.WorkflowUtilities.String
 {
-    public sealed class ToLower : CodeActivity
+    public sealed class ToLower : WorkFlowActivityBase
     {
+        public ToLower() : base(typeof(ToLower)) { }
+
         [RequiredArgument]
         [Input("String To Lower")]
         public InArgument<string> StringToLower { get; set; }
 
-        [OutputAttribute("Lowered String")]
+        [Output("Lowered String")]
         public OutArgument<string> LoweredString { get; set; }
 
-        protected override void Execute(CodeActivityContext executionContext)
+        protected override void ExecuteCrmWorkFlowActivity(CodeActivityContext context, LocalWorkflowContext localContext)
         {
-            ITracingService tracer = executionContext.GetExtension<ITracingService>();
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (localContext == null)
+                throw new ArgumentNullException(nameof(localContext));
 
-            try
-            {
-                string stringToLower = StringToLower.Get(executionContext);
+            string stringToLower = StringToLower.Get(context);
 
-                string loweredString = stringToLower.ToLower();
+            string loweredString = stringToLower.ToLower();
 
-                LoweredString.Set(executionContext, loweredString);
-            }
-            catch (Exception ex)
-            {
-                tracer.Trace("Exception: {0}", ex.ToString());
-            }
+            LoweredString.Set(context, loweredString);
         }
     }
 }
