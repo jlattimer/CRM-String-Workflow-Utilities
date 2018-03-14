@@ -1,10 +1,12 @@
 # CRM String Workflow Utilities
 Custom workflow actions that deal with text strings in Dynamics CRM 2011, 2013, 2015, 2016, 365 (v5 - v9)
 
+* B64 Decode (next release 3/2018)
+* B64 Encode (next release 3/2018)
 * Contains
 * Create Empty Spaces
-* Decode Html (next release 2/2018)
-* Encode Html (next release 2/2018)
+* Decode Html (next release 3/2018)
+* Encode Html (next release 3/2018)
 * EndsWith
 * Join
 * Length
@@ -12,6 +14,7 @@ Custom workflow actions that deal with text strings in Dynamics CRM 2011, 2013, 
 * PadLeft Dynamic
 * PadRight
 * PadRight Dynamic
+* Random String (next release 3/2018)
 * Regex Extract
 * Regex Match
 * Regex Replace
