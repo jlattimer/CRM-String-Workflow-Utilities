@@ -85,8 +85,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="B64EncodeTests.cs" />
     <Compile Include="ContainsTests.cs" />
     <Compile Include="CreateEmptySpacesTests.cs" />
+    <Compile Include="B64DecodeTests.cs" />
     <Compile Include="DecodeHtmlTests.cs" />
     <Compile Include="EncodeHtmlTests.cs" />
     <Compile Include="LengthTests.cs" />
