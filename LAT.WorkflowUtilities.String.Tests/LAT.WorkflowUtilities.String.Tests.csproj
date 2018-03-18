@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="RegexExtractTests.cs" />
     <Compile Include="RegexReplaceWithSpaceTests.cs" />
+    <Compile Include="RemoveHtmlTests.cs" />
     <Compile Include="ReplaceWithSpaceTests.cs" />
     <Compile Include="ReverseTests.cs" />
     <Compile Include="ToTitleCaseTests.cs" />
@@ -121,7 +122,9 @@
     <Compile Include="PadLeftTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

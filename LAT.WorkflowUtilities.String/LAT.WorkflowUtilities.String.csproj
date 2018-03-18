@@ -74,6 +74,7 @@
     <Compile Include="B64Decode.cs" />
     <Compile Include="B64Encode.cs" />
     <Compile Include="Random.cs" />
+    <Compile Include="RemoveHtml.cs" />
     <Compile Include="WorkFlowActivityBase.cs" />
     <Compile Include="Contains.cs" />
     <Compile Include="DecodeHtml.cs" />
