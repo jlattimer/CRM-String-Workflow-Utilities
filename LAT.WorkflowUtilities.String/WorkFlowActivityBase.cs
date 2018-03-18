@@ -135,13 +135,17 @@ namespace LAT.WorkflowUtilities.String
 
             localContext.Trace(string.Format(CultureInfo.InvariantCulture, "Entered {0}.Execute()", ChildClassName));
 
+#if DEBUG
             TraceArguments(true, context, localContext);
+#endif
 
             try
             {
                 ExecuteCrmWorkFlowActivity(context, localContext);
 
+#if DEBUG
                 TraceArguments(false, context, localContext);
+#endif
             }
             catch (FaultException<OrganizationServiceFault> e)
             {
