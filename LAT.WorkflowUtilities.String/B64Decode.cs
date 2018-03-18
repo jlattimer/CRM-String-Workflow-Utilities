@@ -8,7 +8,7 @@ namespace LAT.WorkflowUtilities.String
 {
     public sealed class B64Decode : WorkFlowActivityBase
     {
-        public B64Decode() : base(typeof(B64Decode)) { }
+        public B64Decode() : base(typeof(B64Decode)) { } 
 
         [RequiredArgument]
         [Input("String To Decode")]

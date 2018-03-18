@@ -8,7 +8,7 @@ namespace LAT.WorkflowUtilities.String
 {
     public sealed class B64Encode : WorkFlowActivityBase
     {
-        public B64Encode() : base(typeof(B64Encode)) { }
+        public B64Encode() : base(typeof(B64Encode)) { } 
 
         [RequiredArgument]
         [Input("String To Encode")]
