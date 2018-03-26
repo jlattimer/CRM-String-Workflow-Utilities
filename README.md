@@ -42,5 +42,3 @@ Custom workflow actions that deal with text strings in Dynamics CRM 2015, 2016, 
 *No warranty expressed or implied - use at your own risk!
 
 If you have ideas for new functionality, suggest them in the [Issues](https://github.com/jlattimer/CRM-String-Workflow-Utilities/issues) area.
-
-Feel free to [donate](https://paypal.me/JLattimer) if this saved you some time or helped out :)
